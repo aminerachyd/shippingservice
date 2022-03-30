@@ -17,21 +17,24 @@ FROM registry.access.redhat.com/ubi8/go-toolset:1.16.12-7 as builder
 # RUN apk add --no-cache ca-certificates git
 # RUN apk add build-base
 # WORKDIR /src
-USER root
+USER default
 
 # restore dependencies
 WORKDIR /opt/app-root/src
 
-COPY go.mod go.sum ./
+COPY --chown=default:root go.mod .
+COPY --chown=default:root go.sum .
 
 RUN go mod download
-
-USER default
 
 COPY . .
 
 # Skaffold passes in debug-oriented compiler flags
 ARG SKAFFOLD_GO_GCFLAGS
+
+USER root
+
+RUN go mod download golang.org/x/term
 
 RUN go build -gcflags="${SKAFFOLD_GO_GCFLAGS}" -o /go/bin/shippingservice .
 

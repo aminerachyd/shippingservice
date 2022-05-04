@@ -22,6 +22,9 @@ service:
   type: ClusterIP
   port: 50051
 
+submariner:
+  enabled: true
+
 route:
   enabled: false
 

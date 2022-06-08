@@ -21,9 +21,3 @@ docker build ./
 ```
 go test .
 ```
- 
- 
- 
- 
- 
- 
